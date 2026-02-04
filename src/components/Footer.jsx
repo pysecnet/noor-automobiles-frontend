@@ -1,12 +1,8 @@
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, Mail, ArrowRight, User } from 'lucide-react';
-import { getImage } from '../config/images';
-import { useState } from 'react';
+import { MapPin, Mail, ArrowRight, User } from 'lucide-react';
+import Logo from './Logo';
 
 const Footer = () => {
-  const [logoError, setLogoError] = useState(false);
-  const logoSrc = getImage('logo');
-
   return (
     <footer style={{
       background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%)',
@@ -24,41 +20,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <div style={{ marginBottom: '28px' }}>
-              {logoSrc && !logoError ? (
-                <img 
-                  src={logoSrc} 
-                  alt="Noor Automobiles"
-                  onError={() => setLogoError(true)}
-                  style={{
-                    height: '60px',
-                    width: 'auto',
-                    objectFit: 'contain',
-                    filter: 'brightness(0) invert(1)'
-                  }}
-                />
-              ) : (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                  <div style={{
-                    width: '50px',
-                    height: '50px',
-                    background: 'linear-gradient(135deg, #c41e3a 0%, #e63950 100%)',
-                    borderRadius: '14px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '1.5rem',
-                    fontWeight: '700'
-                  }}>N</div>
-                  <div>
-                    <div style={{ fontSize: '1.3rem', fontWeight: '700' }}>
-                      Noor <span style={{ color: '#c41e3a' }}>Automobiles</span>
-                    </div>
-                    <div style={{ fontSize: '0.7rem', opacity: 0.6, letterSpacing: '0.1em' }}>
-                      By MM
-                    </div>
-                  </div>
-                </div>
-              )}
+              <Logo size={50} textColor="#ffffff" />
             </div>
             <p style={{
               fontSize: '0.95rem',
@@ -98,6 +60,7 @@ const Footer = () => {
               {[
                 { name: 'Home', path: '/' },
                 { name: 'Our Collection', path: '/collection' },
+                { name: 'Car Parts', path: '/parts' },
                 { name: 'About Us', path: '/about' },
                 { name: 'Contact', path: '/contact' }
               ].map(link => (
@@ -191,7 +154,7 @@ const Footer = () => {
                 fontSize: '0.9rem'
               }}>
                 <MapPin size={20} color="#c41e3a" style={{ marginTop: '2px', flexShrink: 0 }} />
-                <span>Honda Palace, Opp. Taj Pump<br />Jamshoro Road, Hyderabad</span>
+                <span>Honda Palace, Opp. Taj Pump, Jamshoro Road, Hyderabad</span>
               </div>
             </div>
           </div>
@@ -215,16 +178,25 @@ const Footer = () => {
                 padding: '14px 0',
                 borderBottom: '1px solid rgba(255,255,255,0.1)'
               }}>
-                <span style={{ color: 'rgba(255,255,255,0.6)' }}>Mon - Sat</span>
-                <span style={{ fontWeight: '600' }}>9:00 AM - 8:00 PM</span>
+                <span style={{ color: 'rgba(255,255,255,0.6)' }}>Mon - Thu</span>
+                <span style={{ fontWeight: '600' }}>11:00 AM - 10:00 PM</span>
+              </div>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                padding: '14px 0',
+                borderBottom: '1px solid rgba(255,255,255,0.1)'
+              }}>
+                <span style={{ color: 'rgba(255,255,255,0.6)' }}>Friday</span>
+                <span style={{ fontWeight: '600', color: '#c41e3a' }}>Closed</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '14px 0' }}>
-                <span style={{ color: 'rgba(255,255,255,0.6)' }}>Sunday</span>
-                <span style={{ fontWeight: '600' }}>10:00 AM - 6:00 PM</span>
+                <span style={{ color: 'rgba(255,255,255,0.6)' }}>Sat - Sun</span>
+                <span style={{ fontWeight: '600' }}>11:00 AM - 10:00 PM</span>
               </div>
             </div>
 
-            <a
+            
               href="mailto:noorautomobiles90@gmail.com"
               style={{
                 display: 'flex',
@@ -239,7 +211,7 @@ const Footer = () => {
               }}
             >
               <Mail size={18} color="#c41e3a" />
-              noorautomobiles90@gmail.com
+              <span>noorautomobiles90@gmail.com</span>
             </a>
           </div>
         </div>

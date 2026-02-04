@@ -1,7 +1,12 @@
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, Mail, Clock, User, ArrowRight } from 'lucide-react';
+import { MapPin, Phone, Mail, ArrowRight, User } from 'lucide-react';
+import { getImage } from '../config/images';
+import { useState } from 'react';
 
 const Footer = () => {
+  const [logoError, setLogoError] = useState(false);
+  const logoSrc = getImage('logo');
+
   return (
     <footer style={{
       background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%)',
@@ -18,31 +23,42 @@ const Footer = () => {
         }}>
           {/* Brand */}
           <div>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '14px',
-              marginBottom: '28px'
-            }}>
-              <div style={{
-                width: '50px',
-                height: '50px',
-                background: 'linear-gradient(135deg, #c41e3a 0%, #e63950 100%)',
-                borderRadius: '14px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '1.5rem',
-                fontWeight: '700'
-              }}>N</div>
-              <div>
-                <div style={{ fontSize: '1.3rem', fontWeight: '700' }}>
-                  Noor <span style={{ color: '#c41e3a' }}>Automobiles</span>
+            <div style={{ marginBottom: '28px' }}>
+              {logoSrc && !logoError ? (
+                <img 
+                  src={logoSrc} 
+                  alt="Noor Automobiles"
+                  onError={() => setLogoError(true)}
+                  style={{
+                    height: '60px',
+                    width: 'auto',
+                    objectFit: 'contain',
+                    filter: 'brightness(0) invert(1)'
+                  }}
+                />
+              ) : (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                  <div style={{
+                    width: '50px',
+                    height: '50px',
+                    background: 'linear-gradient(135deg, #c41e3a 0%, #e63950 100%)',
+                    borderRadius: '14px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.5rem',
+                    fontWeight: '700'
+                  }}>N</div>
+                  <div>
+                    <div style={{ fontSize: '1.3rem', fontWeight: '700' }}>
+                      Noor <span style={{ color: '#c41e3a' }}>Automobiles</span>
+                    </div>
+                    <div style={{ fontSize: '0.7rem', opacity: 0.6, letterSpacing: '0.1em' }}>
+                      By MM
+                    </div>
+                  </div>
                 </div>
-                <div style={{ fontSize: '0.7rem', opacity: 0.6, letterSpacing: '0.1em' }}>
-                  By MM
-                </div>
-              </div>
+              )}
             </div>
             <p style={{
               fontSize: '0.95rem',
@@ -78,11 +94,7 @@ const Footer = () => {
             }}>
               Quick Links
             </h4>
-            <nav style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '14px'
-            }}>
+            <nav style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {[
                 { name: 'Home', path: '/' },
                 { name: 'Our Collection', path: '/collection' },
@@ -99,14 +111,6 @@ const Footer = () => {
                     fontSize: '0.95rem',
                     color: 'rgba(255,255,255,0.6)',
                     transition: 'all 0.3s ease'
-                  }}
-                  onMouseEnter={e => {
-                    e.target.style.color = '#fff';
-                    e.target.style.paddingLeft = '8px';
-                  }}
-                  onMouseLeave={e => {
-                    e.target.style.color = 'rgba(255,255,255,0.6)';
-                    e.target.style.paddingLeft = '0';
                   }}
                 >
                   <ArrowRight size={14} color="#c41e3a" />
@@ -128,23 +132,15 @@ const Footer = () => {
             }}>
               Contact Us
             </h4>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '20px'
-            }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <a href="tel:03241344368" style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '14px',
                 padding: '16px',
                 background: 'rgba(255,255,255,0.05)',
-                borderRadius: '14px',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={e => e.currentTarget.style.background = 'rgba(196,30,58,0.2)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
-              >
+                borderRadius: '14px'
+              }}>
                 <div style={{
                   width: '44px',
                   height: '44px',
@@ -168,12 +164,8 @@ const Footer = () => {
                 gap: '14px',
                 padding: '16px',
                 background: 'rgba(255,255,255,0.05)',
-                borderRadius: '14px',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={e => e.currentTarget.style.background = 'rgba(196,30,58,0.2)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
-              >
+                borderRadius: '14px'
+              }}>
                 <div style={{
                   width: '44px',
                   height: '44px',
@@ -216,11 +208,7 @@ const Footer = () => {
             }}>
               Business Hours
             </h4>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '14px'
-            }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <div style={{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -230,11 +218,7 @@ const Footer = () => {
                 <span style={{ color: 'rgba(255,255,255,0.6)' }}>Mon - Sat</span>
                 <span style={{ fontWeight: '600' }}>9:00 AM - 8:00 PM</span>
               </div>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                padding: '14px 0'
-              }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '14px 0' }}>
                 <span style={{ color: 'rgba(255,255,255,0.6)' }}>Sunday</span>
                 <span style={{ fontWeight: '600' }}>10:00 AM - 6:00 PM</span>
               </div>
@@ -251,11 +235,8 @@ const Footer = () => {
                 background: 'rgba(255,255,255,0.05)',
                 borderRadius: '14px',
                 fontSize: '0.9rem',
-                color: 'rgba(255,255,255,0.8)',
-                transition: 'all 0.3s ease'
+                color: 'rgba(255,255,255,0.8)'
               }}
-              onMouseEnter={e => e.currentTarget.style.background = 'rgba(196,30,58,0.2)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
             >
               <Mail size={18} color="#c41e3a" />
               noorautomobiles90@gmail.com

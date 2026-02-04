@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone } from 'lucide-react';
-import { getImage } from '../config/images';
+import Logo from './Logo';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [logoError, setLogoError] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -30,12 +29,10 @@ const Header = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Collection', path: '/collection' },
-    {name: 'Parts', path: '/parts'},
+    { name: 'Parts', path: '/parts' },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
-
-  const logoSrc = getImage('logo');
 
   return (
     <header style={{
@@ -56,62 +53,8 @@ const Header = () => {
         height: '90px'
       }}>
         {/* Logo */}
-        <Link to="/" style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '14px'
-        }}>
-          {logoSrc && !logoError ? (
-            <img 
-              src={logoSrc} 
-              alt="Noor Automobiles"
-              onError={() => setLogoError(true)}
-              style={{
-                height: '55px',
-                width: 'auto',
-                objectFit: 'contain'
-              }}
-            />
-          ) : (
-            <>
-              <div style={{
-                width: '50px',
-                height: '50px',
-                background: 'linear-gradient(135deg, #c41e3a 0%, #e63950 100%)',
-                borderRadius: '14px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 8px 20px rgba(196, 30, 58, 0.3)'
-              }}>
-                <span style={{
-                  color: '#fff',
-                  fontSize: '1.6rem',
-                  fontWeight: '700'
-                }}>N</span>
-              </div>
-              <div>
-                <div style={{
-                  fontSize: '1.3rem',
-                  fontWeight: '700',
-                  color: textColor,
-                  letterSpacing: '-0.02em',
-                  lineHeight: 1.1
-                }}>
-                  Noor <span style={{ color: '#c41e3a' }}>Automobiles</span>
-                </div>
-                <div style={{
-                  fontSize: '0.65rem',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  color: textColor,
-                  opacity: 0.7
-                }}>
-                  Japanese Car Importer
-                </div>
-              </div>
-            </>
-          )}
+        <Link to="/">
+          <Logo size={50} textColor={textColor} />
         </Link>
 
         {/* Desktop Navigation */}
@@ -149,7 +92,7 @@ const Header = () => {
         </nav>
 
         {/* Call Button */}
-        <a
+        
           href="tel:03241344368"
           className="btn desktop-nav"
           style={{
@@ -179,7 +122,9 @@ const Header = () => {
             padding: '10px',
             color: textColor,
             background: isScrolled || !isHomePage ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.1)',
-            borderRadius: '12px'
+            borderRadius: '12px',
+            border: 'none',
+            cursor: 'pointer'
           }}
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -215,7 +160,7 @@ const Header = () => {
                 {link.name}
               </Link>
             ))}
-            <a
+            
               href="tel:03241344368"
               style={{
                 marginTop: '20px',

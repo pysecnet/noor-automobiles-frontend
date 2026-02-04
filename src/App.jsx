@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import WhatsAppButton from './components/WhatsAppButton';
 import Home from './pages/Home';
 import Collection from './pages/Collection';
 import CarDetail from './pages/CarDetail';
@@ -35,6 +36,7 @@ function App() {
                   </Routes>
                 </main>
                 <Footer />
+                <WhatsAppButton />
               </>
             } />
           </Routes>
