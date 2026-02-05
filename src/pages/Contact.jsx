@@ -285,7 +285,7 @@ const Contact = () => {
       fontSize: '1.05rem',
       fontWeight: '500'
     }}>
-    info@noorautomobiles.com
+    noorautomobiles90@gmail.com
     </a>
     </div>
     </div>
