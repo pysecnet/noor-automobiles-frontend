@@ -280,7 +280,7 @@ const Contact = () => {
     }}>
     Email Us
     </h4>
-    <a href="mailto:info@noorautomobiles.com" style={{
+    <a href="mailto:noorautomobiles90@gmail.com" style={{
       color: '#0a0a0a',
       fontSize: '1.05rem',
       fontWeight: '500'
