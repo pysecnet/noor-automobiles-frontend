@@ -7,8 +7,8 @@ const WhatsAppButton = () => {
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
   return (
-    
-      href={whatsappUrl}
+    <a
+       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
       style={{

@@ -197,7 +197,7 @@ const Footer = () => {
             </div>
 
             
-              href="mailto:noorautomobiles90@gmail.com"
+              <a href="mailto:noorautomobiles90@gmail.com"
               style={{
                 display: 'flex',
                 alignItems: 'center',
