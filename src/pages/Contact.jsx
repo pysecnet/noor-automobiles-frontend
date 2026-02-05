@@ -329,7 +329,7 @@ const Contact = () => {
       lineHeight: 1.6,
       fontWeight: '500'
     }}>
-    Honda Palace, Jamshoro Road<br />
+    Honda Palace, Opp. Taj Pump, Jamshoro Road<br />
     Hyderabad, Sindh
     </p>
     </div>
