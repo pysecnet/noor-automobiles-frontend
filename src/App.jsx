@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Collection from './pages/Collection';
 import CarDetail from './pages/CarDetail';
@@ -16,6 +17,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+        <ScrollToTop />
         <div className="app">
           <Routes>
             {/* Admin route without header/footer */}
