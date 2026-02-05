@@ -593,7 +593,7 @@ const CarDetail = () => {
                     Send Inquiry
                   </button>
                   
-                    href="tel:03241344368"
+                   <a href="tel:03241344368"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -612,7 +612,7 @@ const CarDetail = () => {
                     0324-1344368
                   </a>
                   
-                    href={`https://wa.me/923241344368?text=Hi! I am interested in ${encodeURIComponent(car.title)}. Please provide more details.`}
+                    <a href={`https://wa.me/923241344368?text=Hi! I am interested in ${encodeURIComponent(car.title)}. Please provide more details.`}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
