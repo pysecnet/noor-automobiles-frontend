@@ -1,3 +1,11 @@
 User-agent: *
-Allow: /
-Sitemap: https://noorautomobiles.com/sitemap.xml
+Disallow:
+
+# Prevent crawling of unnecessary backend or filter pages if any
+Disallow: /admin/
+Disallow: /login/
+Disallow: /cart/
+Disallow: /checkout/
+
+# Sitemap location
+Sitemap: https://www.noorautomobiles.com/sitemap.xml
