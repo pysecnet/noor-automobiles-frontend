@@ -45,9 +45,6 @@ const Home = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundImage: 'url(https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
           opacity: 0.2
         }} />
 
