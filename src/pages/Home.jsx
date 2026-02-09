@@ -1,3 +1,5 @@
+import SEO from '../components/SEO';
+import { OrganizationSchema } from '../components/StructuredData';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';

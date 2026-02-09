@@ -1,11 +1,18 @@
-User-agent: *
-Disallow:
+# Robots.txt for Noor Automobiles
+# https://noorautomobiles.pk
 
-# Prevent crawling of unnecessary backend or filter pages if any
-Disallow: /admin/
-Disallow: /login/
-Disallow: /cart/
-Disallow: /checkout/
+User-agent: *
+Allow: /
+
+# Disallow admin area
+Disallow: /admin
 
 # Sitemap location
-Sitemap: https://www.noorautomobiles.com/sitemap.xml
+Sitemap: https://noorautomobiles.pk/sitemap.xml
+
+# Crawl delay (be nice to the server)
+Crawl-delay: 1
+
+# Block unnecessary files
+Disallow: /*.json$
+Disallow: /sw.js

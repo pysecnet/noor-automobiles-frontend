@@ -1,3 +1,5 @@
+import SEO from '../components/SEO';
+import { CarSchema, BreadcrumbSchema } from '../components/StructuredData';
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
