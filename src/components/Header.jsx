@@ -146,7 +146,7 @@ const Header = () => {
           </nav>
 
           {/* Call Button - Desktop */}
-          
+          <a
             href="tel:03241344368"
             className="desktop-nav"
             style={{
@@ -224,7 +224,7 @@ const Header = () => {
                 </Link>
               ))}
               
-              
+              <a
                 href="https://wa.me/923241344368?text=Hello! I am interested in your cars."
                 target="_blank"
                 rel="noopener noreferrer"
@@ -243,7 +243,7 @@ const Header = () => {
                 WhatsApp Us
               </a>
               
-              
+             <a
                 href="tel:03241344368"
                 style={{
                   marginTop: '8px',
