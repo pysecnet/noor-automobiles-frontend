@@ -1,5 +1,3 @@
-import SEO from '../components/SEO';
-import { CarSchema, BreadcrumbSchema } from '../components/StructuredData';
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -129,7 +127,7 @@ const CarDetail = () => {
 
   return (
     <div style={{ paddingTop: '90px', overflowX: 'hidden' }}>
-      {/* Breadcrumb - BIGGER */}
+      {/* Breadcrumb */}
       <div style={{ padding: '24px 0', borderBottom: '1px solid #f0f0f0' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
           <Link to="/collection" style={{ 
@@ -139,8 +137,7 @@ const CarDetail = () => {
             fontSize: '1rem', 
             color: '#525252', 
             textDecoration: 'none',
-            fontWeight: '500',
-            transition: 'color 0.3s ease'
+            fontWeight: '500'
           }}>
             <ArrowLeft size={20} />
             Back to Collection
@@ -152,13 +149,14 @@ const CarDetail = () => {
       <section style={{ padding: '50px 0 120px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
           <div className="car-detail-wrapper">
-            {/* Left: Gallery - BIGGER */}
+            {/* Left: Gallery - MUCH BIGGER IMAGE */}
             <div className="car-detail-gallery">
-              {/* Main Image */}
+              {/* Main Image - INCREASED HEIGHT */}
               <div style={{
                 position: 'relative',
                 width: '100%',
-                paddingBottom: '70%',
+                height: '500px',
+                minHeight: '400px',
                 background: '#f5f5f5',
                 borderRadius: '24px',
                 overflow: 'hidden',
@@ -182,12 +180,15 @@ const CarDetail = () => {
                   alt={car.title}
                   onLoad={() => setImageLoaded(true)}
                   style={{
-                    position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-                    objectFit: 'cover', opacity: imageLoaded ? 1 : 0, transition: 'opacity 0.3s ease'
+                    width: '100%', 
+                    height: '100%',
+                    objectFit: 'cover', 
+                    opacity: imageLoaded ? 1 : 0, 
+                    transition: 'opacity 0.3s ease'
                   }}
                 />
                 
-                {/* Status Badge - BIGGER */}
+                {/* Status Badge */}
                 <div style={{
                   position: 'absolute', top: '24px', left: '24px', padding: '12px 24px',
                   background: status.bg, color: status.text, fontSize: '0.85rem',
@@ -197,7 +198,7 @@ const CarDetail = () => {
                   {car.status}
                 </div>
 
-                {/* Click to enlarge - BIGGER */}
+                {/* Click to enlarge */}
                 <div style={{
                   position: 'absolute', bottom: '24px', left: '24px', padding: '14px 24px',
                   background: 'rgba(0,0,0,0.75)', color: '#fff', fontSize: '0.95rem',
@@ -206,7 +207,7 @@ const CarDetail = () => {
                   Click to enlarge
                 </div>
 
-                {/* Image Counter - BIGGER */}
+                {/* Image Counter */}
                 {car.images?.length > 1 && (
                   <div style={{
                     position: 'absolute', bottom: '24px', right: '24px', padding: '14px 24px',
@@ -217,7 +218,7 @@ const CarDetail = () => {
                   </div>
                 )}
 
-                {/* Nav Arrows - BIGGER */}
+                {/* Nav Arrows */}
                 {car.images?.length > 1 && (
                   <>
                     <button onClick={(e) => { e.stopPropagation(); prevImage(); }} style={{
@@ -241,25 +242,25 @@ const CarDetail = () => {
               {/* Thumbnails - BIGGER */}
               {car.images?.length > 1 && (
                 <div style={{
-                  display: 'flex', gap: '12px', marginTop: '20px',
+                  display: 'flex', gap: '14px', marginTop: '24px',
                   overflowX: 'auto', paddingBottom: '10px'
                 }}>
                   {car.images.map((img, i) => (
                     <div key={i} onClick={() => { setSelectedImageIndex(i); setImageLoaded(false); }} style={{
-                      flexShrink: 0, width: '100px', height: '75px', background: '#f5f5f5',
-                      overflow: 'hidden', cursor: 'pointer', borderRadius: '12px',
+                      flexShrink: 0, width: '120px', height: '90px', background: '#f5f5f5',
+                      overflow: 'hidden', cursor: 'pointer', borderRadius: '14px',
                       border: i === selectedImageIndex ? '4px solid #c41e3a' : '4px solid transparent',
                       opacity: i === selectedImageIndex ? 1 : 0.6,
                       transition: 'all 0.3s ease'
                     }}>
-                      <img src={getOptimizedImage(img, 150)} alt="" loading="lazy"
+                      <img src={getOptimizedImage(img, 200)} alt="" loading="lazy"
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                   ))}
                 </div>
               )}
 
-              {/* Videos - BIGGER */}
+              {/* Videos */}
               {car.videos?.length > 0 && (
                 <div style={{ marginTop: '32px' }}>
                   <h3 style={{ 
@@ -284,9 +285,9 @@ const CarDetail = () => {
               )}
             </div>
 
-            {/* Right: Details - BIGGER */}
+            {/* Right: Details */}
             <div className="car-detail-info">
-              {/* Brand & Model - BIGGER */}
+              {/* Brand & Model */}
               <div style={{ 
                 display: 'flex', 
                 alignItems: 'center', 
@@ -305,7 +306,7 @@ const CarDetail = () => {
                 <span style={{ fontSize: '1rem', color: '#737373', fontWeight: '500' }}>{car.model}</span>
               </div>
 
-              {/* Title - MUCH BIGGER */}
+              {/* Title */}
               <h1 style={{
                 fontSize: 'clamp(2rem, 5vw, 3rem)', 
                 fontWeight: '800', 
@@ -318,7 +319,7 @@ const CarDetail = () => {
                 {car.title}
               </h1>
 
-              {/* Engine - BIGGER */}
+              {/* Engine */}
               {car.engine && (
                 <div style={{
                   padding: '24px 28px', 
@@ -340,7 +341,7 @@ const CarDetail = () => {
                 </div>
               )}
 
-              {/* Specs Grid - BIGGER */}
+              {/* Specs Grid */}
               <div className="specs-grid">
                 {specs.map((spec, i) => (
                   <div key={i} style={{
@@ -387,7 +388,7 @@ const CarDetail = () => {
                 ))}
               </div>
 
-              {/* Description - BIGGER */}
+              {/* Description */}
               {car.description && (
                 <div style={{ marginTop: '36px' }}>
                   <h3 style={{ 
@@ -407,7 +408,7 @@ const CarDetail = () => {
                 </div>
               )}
 
-              {/* Features - BIGGER */}
+              {/* Features */}
               {car.features?.length > 0 && (
                 <div style={{ marginTop: '36px' }}>
                   <h3 style={{ 
@@ -438,7 +439,7 @@ const CarDetail = () => {
                 </div>
               )}
 
-              {/* CTA - BIGGER */}
+              {/* CTA */}
               <div style={{
                 marginTop: '48px', 
                 padding: '32px',
@@ -458,7 +459,6 @@ const CarDetail = () => {
                 }}>Interested in this vehicle?</p>
                 <p style={{ fontSize: '1.8rem', fontWeight: '700', marginBottom: '28px' }}>Contact Us Today</p>
                 
-                {/* Buttons - Stack on mobile */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   <button onClick={() => setShowInquiry(true)} style={{
                     display: 'flex', 
@@ -473,8 +473,7 @@ const CarDetail = () => {
                     border: 'none', 
                     borderRadius: '14px', 
                     cursor: 'pointer', 
-                    width: '100%',
-                    boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
+                    width: '100%'
                   }}>
                     <MessageSquare size={22} />
                     Send Inquiry
@@ -513,8 +512,7 @@ const CarDetail = () => {
                       border: 'none', 
                       borderRadius: '14px', 
                       textDecoration: 'none', 
-                      flex: 1,
-                      boxShadow: '0 4px 15px rgba(37,211,102,0.4)'
+                      flex: 1
                     }}>
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -529,7 +527,7 @@ const CarDetail = () => {
         </div>
       </section>
 
-      {/* Lightbox - BIGGER */}
+      {/* Lightbox */}
       {showLightbox && (
         <div style={{
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
@@ -575,7 +573,7 @@ const CarDetail = () => {
         </div>
       )}
 
-      {/* Inquiry Modal - BIGGER */}
+      {/* Inquiry Modal */}
       {showInquiry && (
         <div style={{
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
@@ -591,21 +589,8 @@ const CarDetail = () => {
               display: 'flex', justifyContent: 'space-between', alignItems: 'center'
             }}>
               <div style={{ minWidth: 0, flex: 1 }}>
-                <p style={{ 
-                  fontSize: '0.8rem', 
-                  textTransform: 'uppercase', 
-                  color: '#737373', 
-                  marginBottom: '6px',
-                  letterSpacing: '0.08em',
-                  fontWeight: '600'
-                }}>Inquiry For</p>
-                <h3 style={{ 
-                  fontSize: '1.3rem', 
-                  fontWeight: '700', 
-                  whiteSpace: 'nowrap', 
-                  overflow: 'hidden', 
-                  textOverflow: 'ellipsis' 
-                }}>{car.title}</h3>
+                <p style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: '#737373', marginBottom: '6px', letterSpacing: '0.08em', fontWeight: '600' }}>Inquiry For</p>
+                <h3 style={{ fontSize: '1.3rem', fontWeight: '700', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{car.title}</h3>
               </div>
               <button onClick={() => setShowInquiry(false)} style={{
                 width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -623,105 +608,38 @@ const CarDetail = () => {
                 <h3 style={{ fontSize: '1.8rem', fontWeight: '700', marginBottom: '12px' }}>Inquiry Sent!</h3>
                 <p style={{ color: '#737373', marginBottom: '28px', fontSize: '1.1rem' }}>We'll get back to you soon.</p>
                 <button onClick={() => { setShowInquiry(false); setSubmitted(false); }}
-                  style={{ 
-                    padding: '16px 40px', 
-                    background: 'linear-gradient(135deg, #c41e3a 0%, #e63950 100%)', 
-                    color: '#fff', 
-                    border: 'none', 
-                    borderRadius: '14px', 
-                    fontWeight: '700', 
-                    cursor: 'pointer',
-                    fontSize: '1.1rem'
-                  }}>Close</button>
+                  style={{ padding: '16px 40px', background: 'linear-gradient(135deg, #c41e3a 0%, #e63950 100%)', color: '#fff', border: 'none', borderRadius: '14px', fontWeight: '700', cursor: 'pointer', fontSize: '1.1rem' }}>Close</button>
               </div>
             ) : (
               <form onSubmit={handleSubmitInquiry} style={{ padding: '28px' }}>
                 <div style={{ marginBottom: '20px' }}>
-                  <label style={{ 
-                    display: 'block', 
-                    fontSize: '0.9rem', 
-                    fontWeight: '700', 
-                    marginBottom: '10px',
-                    color: '#0a0a0a'
-                  }}>Your Name *</label>
+                  <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: '700', marginBottom: '10px', color: '#0a0a0a' }}>Your Name *</label>
                   <input type="text" required value={inquiryForm.name}
                     onChange={(e) => setInquiryForm({ ...inquiryForm, name: e.target.value })}
-                    style={{ 
-                      width: '100%', 
-                      padding: '16px 18px', 
-                      border: '2px solid #e5e5e5', 
-                      borderRadius: '14px', 
-                      fontSize: '1.05rem',
-                      transition: 'border-color 0.3s ease'
-                    }} />
+                    style={{ width: '100%', padding: '16px 18px', border: '2px solid #e5e5e5', borderRadius: '14px', fontSize: '1.05rem' }} />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
-                  <label style={{ 
-                    display: 'block', 
-                    fontSize: '0.9rem', 
-                    fontWeight: '700', 
-                    marginBottom: '10px',
-                    color: '#0a0a0a'
-                  }}>Email *</label>
+                  <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: '700', marginBottom: '10px', color: '#0a0a0a' }}>Email *</label>
                   <input type="email" required value={inquiryForm.email}
                     onChange={(e) => setInquiryForm({ ...inquiryForm, email: e.target.value })}
-                    style={{ 
-                      width: '100%', 
-                      padding: '16px 18px', 
-                      border: '2px solid #e5e5e5', 
-                      borderRadius: '14px', 
-                      fontSize: '1.05rem' 
-                    }} />
+                    style={{ width: '100%', padding: '16px 18px', border: '2px solid #e5e5e5', borderRadius: '14px', fontSize: '1.05rem' }} />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
-                  <label style={{ 
-                    display: 'block', 
-                    fontSize: '0.9rem', 
-                    fontWeight: '700', 
-                    marginBottom: '10px',
-                    color: '#0a0a0a'
-                  }}>Phone</label>
+                  <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: '700', marginBottom: '10px', color: '#0a0a0a' }}>Phone</label>
                   <input type="tel" value={inquiryForm.phone}
                     onChange={(e) => setInquiryForm({ ...inquiryForm, phone: e.target.value })}
-                    style={{ 
-                      width: '100%', 
-                      padding: '16px 18px', 
-                      border: '2px solid #e5e5e5', 
-                      borderRadius: '14px', 
-                      fontSize: '1.05rem' 
-                    }} />
+                    style={{ width: '100%', padding: '16px 18px', border: '2px solid #e5e5e5', borderRadius: '14px', fontSize: '1.05rem' }} />
                 </div>
                 <div style={{ marginBottom: '28px' }}>
-                  <label style={{ 
-                    display: 'block', 
-                    fontSize: '0.9rem', 
-                    fontWeight: '700', 
-                    marginBottom: '10px',
-                    color: '#0a0a0a'
-                  }}>Message *</label>
+                  <label style={{ display: 'block', fontSize: '0.9rem', fontWeight: '700', marginBottom: '10px', color: '#0a0a0a' }}>Message *</label>
                   <textarea required rows={4} value={inquiryForm.message}
                     onChange={(e) => setInquiryForm({ ...inquiryForm, message: e.target.value })}
-                    style={{ 
-                      width: '100%', 
-                      padding: '16px 18px', 
-                      border: '2px solid #e5e5e5', 
-                      borderRadius: '14px', 
-                      fontSize: '1.05rem', 
-                      resize: 'vertical' 
-                    }} />
+                    style={{ width: '100%', padding: '16px 18px', border: '2px solid #e5e5e5', borderRadius: '14px', fontSize: '1.05rem', resize: 'vertical' }} />
                 </div>
                 <button type="submit" disabled={submitting} style={{
-                  width: '100%', 
-                  padding: '18px', 
-                  background: 'linear-gradient(135deg, #c41e3a 0%, #e63950 100%)',
-                  color: '#fff', 
-                  border: 'none', 
-                  borderRadius: '14px', 
-                  fontSize: '1.15rem', 
-                  fontWeight: '700',
-                  cursor: submitting ? 'not-allowed' : 'pointer', 
-                  opacity: submitting ? 0.7 : 1,
-                  boxShadow: '0 10px 30px rgba(196,30,58,0.3)'
+                  width: '100%', padding: '18px', background: 'linear-gradient(135deg, #c41e3a 0%, #e63950 100%)',
+                  color: '#fff', border: 'none', borderRadius: '14px', fontSize: '1.15rem', fontWeight: '700',
+                  cursor: submitting ? 'not-allowed' : 'pointer', opacity: submitting ? 0.7 : 1
                 }}>{submitting ? 'Sending...' : 'Send Inquiry'}</button>
               </form>
             )}
@@ -736,7 +654,7 @@ const CarDetail = () => {
         
         .car-detail-wrapper {
           display: grid;
-          grid-template-columns: 1.1fr 1fr;
+          grid-template-columns: 1.2fr 1fr;
           gap: 60px;
           align-items: start;
         }
@@ -754,7 +672,7 @@ const CarDetail = () => {
           gap: 16px;
         }
         
-        @media (max-width: 1000px) {
+        @media (max-width: 1100px) {
           .car-detail-wrapper {
             grid-template-columns: 1fr;
             gap: 40px;
