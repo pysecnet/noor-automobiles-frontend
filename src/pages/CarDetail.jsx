@@ -249,7 +249,7 @@ const CarDetail = () => {
                   <h3 style={{ fontSize: '0.8rem', fontWeight: '600', textTransform: 'uppercase', color: '#737373', marginBottom: '12px' }}>Videos</h3>
                   <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                     {car.videos.map((video, i) => (
-                      <video key={i} src={video} controls style={{ width: '100%', maxWidth: '400px', borderRadius: '12px' }} />
+                      <LazyVideo key={i} src={video} style={{ width: '100%', maxWidth: '400px', borderRadius: '12px' }} />
                     ))}
                   </div>
                 </div>

@@ -1,34 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-  <meta charset="UTF-8" />
-
-  <!-- Favicons (IMPORTANT for Google) -->
-  <link rel="icon" href="/favicon.ico" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Noor Automobiles - Premium Japanese Car Importer in Hyderabad. New & Used Cars." />
-  <title>Noor Automobiles | Japanese Car Importer</title>
-
-  <!-- Brand Logo for Google Search -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Noor Automobiles",
-    "url": "https://www.noorautomobiles.com/",
-    "logo": "https://www.noorautomobiles.com/favicon.png"
-  }
-  </script>
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#c41e3a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Noor Auto" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Noor Automobiles - Premium Japanese car imports in Hyderabad, Pakistan. Quality new & used cars directly from Japan." />
+    <meta name="keywords" content="Japanese cars, car import, Hyderabad, Pakistan, Toyota, Honda, Suzuki, used cars, new cars" />
+    <meta name="author" content="Noor Automobiles" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://noorautomobiles.com/" />
+    <meta property="og:title" content="Noor Automobiles - Japanese Car Importer" />
+    <meta property="og:description" content="Premium Japanese car imports in Hyderabad, Pakistan. Quality you can trust!" />
+    <meta property="og:image" content="/icons/icon-512x512.png" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Noor Automobiles - Japanese Car Importer" />
+    <meta name="twitter:description" content="Premium Japanese car imports in Hyderabad, Pakistan." />
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <title>Noor Automobiles - Japanese Car Importer</title>
   </head>
-
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Register Service Worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((reg) => console.log('SW registered:', reg.scope))
+            .catch((err) => console.log('SW registration failed:', err));
+        });
+      }
+    </script>
   </body>
 </html>

@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import { Calendar, Gauge, Fuel, Settings, ArrowRight } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const CarCard = ({ car, index = 0 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const cardRef = useRef(null);
 
   const statusColors = {
     available: { bg: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)', text: '#166534' },
@@ -15,25 +17,54 @@ const CarCard = ({ car, index = 0 }) => {
 
   const status = statusColors[car.status] || statusColors.available;
 
-  const getOptimizedImage = (url) => {
-    if (!url) return 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600&q=80';
+  // Intersection Observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '100px', threshold: 0.1 }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const getOptimizedImage = (url, width = 600) => {
+    if (!url) return {
+      placeholder: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=20&q=10',
+      full: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600&q=80'
+    };
     
     if (url.includes('cloudinary.com')) {
-      return url.replace('/upload/', '/upload/w_600,h_400,c_fill,q_auto,f_auto/');
+      return {
+        placeholder: url.replace('/upload/', '/upload/w_20,q_10,e_blur:1000/'),
+        full: url.replace('/upload/', `/upload/w_${width},h_400,c_fill,q_auto,f_auto/`)
+      };
     }
     
     if (url.includes('unsplash.com')) {
       const base = url.split('?')[0];
-      return base + '?w=600&h=400&fit=crop&q=80&auto=format';
+      return {
+        placeholder: `${base}?w=20&q=10`,
+        full: `${base}?w=${width}&h=400&fit=crop&q=80&auto=format`
+      };
     }
     
-    return url;
+    return { placeholder: url, full: url };
   };
 
-  const optimizedImageUrl = getOptimizedImage(car.images?.[0]);
+  const { placeholder, full } = getOptimizedImage(car.images?.[0]);
 
   return (
     <Link
+      ref={cardRef}
       to={'/car/' + car.id}
       style={{
         display: 'block',
@@ -42,7 +73,7 @@ const CarCard = ({ car, index = 0 }) => {
         overflow: 'hidden',
         boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
         transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-        animation: 'fadeInUp 0.7s ease ' + (index * 0.1) + 's both'
+        animation: `fadeInUp 0.7s ease ${index * 0.1}s both`
       }}
       onMouseEnter={e => {
         e.currentTarget.style.transform = 'translateY(-12px) scale(1.02)';
@@ -57,20 +88,35 @@ const CarCard = ({ car, index = 0 }) => {
         position: 'relative',
         height: '280px',
         overflow: 'hidden',
-        background: 'linear-gradient(135deg, #f5f5f5 0%, #e5e5e5 100%)'
+        background: '#f0f0f0'
       }}>
+        {/* Blur Placeholder */}
+        {!imageLoaded && !imageError && isInView && (
+          <img
+            src={placeholder}
+            alt=""
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              filter: 'blur(20px)',
+              transform: 'scale(1.1)'
+            }}
+          />
+        )}
+
+        {/* Loading Spinner */}
         {!imageLoaded && !imageError && (
           <div style={{
             position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'linear-gradient(135deg, #f5f5f5 0%, #e5e5e5 100%)',
-            zIndex: 1
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 3
           }}>
             <div style={{
               width: '40px',
@@ -101,22 +147,24 @@ const CarCard = ({ car, index = 0 }) => {
           </div>
         )}
 
-        <img
-          src={optimizedImageUrl}
-          alt={car.title}
-          loading="lazy"
-          onLoad={() => setImageLoaded(true)}
-          onError={() => setImageError(true)}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            transition: 'transform 0.7s ease, opacity 0.3s ease',
-            opacity: imageLoaded ? 1 : 0
-          }}
-          onMouseEnter={e => e.target.style.transform = 'scale(1.1)'}
-          onMouseLeave={e => e.target.style.transform = 'scale(1)'}
-        />
+        {isInView && (
+          <img
+            src={full}
+            alt={car.title}
+            loading="lazy"
+            onLoad={() => setImageLoaded(true)}
+            onError={() => setImageError(true)}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              transition: 'transform 0.7s ease, opacity 0.5s ease',
+              opacity: imageLoaded ? 1 : 0
+            }}
+            onMouseEnter={e => e.target.style.transform = 'scale(1.1)'}
+            onMouseLeave={e => e.target.style.transform = 'scale(1)'}
+          />
+        )}
         
         <div style={{
           position: 'absolute',
@@ -152,7 +200,7 @@ const CarCard = ({ car, index = 0 }) => {
             boxShadow: '0 4px 15px rgba(196,30,58,0.4)',
             zIndex: 2
           }}>
-            Featured
+            ★ Featured
           </div>
         )}
 
@@ -181,7 +229,7 @@ const CarCard = ({ car, index = 0 }) => {
             letterSpacing: '0.05em',
             textTransform: 'uppercase'
           }}>
-            {car.brand} - {car.year}
+            {car.brand} • {car.year}
           </span>
         </div>
       </div>
@@ -273,7 +321,17 @@ const CarCard = ({ car, index = 0 }) => {
 
       <style>{`
         @keyframes spin {
-          to { transform: rotate(360deg); }
+          to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
       `}</style>
     </Link>
