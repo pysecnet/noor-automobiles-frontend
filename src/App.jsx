@@ -20,10 +20,8 @@ function App() {
         <ScrollToTop />
         <div className="app">
           <Routes>
-            {/* Admin route without header/footer */}
             <Route path="/admin" element={<AdminDashboard />} />
             
-            {/* Public routes with header/footer */}
             <Route path="*" element={
               <>
                 <Header />
