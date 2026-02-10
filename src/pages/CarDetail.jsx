@@ -149,25 +149,24 @@ const CarDetail = () => {
       <section style={{ padding: '50px 0 120px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
           <div className="car-detail-wrapper">
-            {/* Left: Gallery - MUCH BIGGER IMAGE */}
+            {/* Left: Gallery */}
             <div className="car-detail-gallery">
-              {/* Main Image - INCREASED HEIGHT */}
+              {/* Main Image Container */}
               <div style={{
                 position: 'relative',
                 width: '100%',
-                height: '500px',
-                minHeight: '400px',
-                background: '#f5f5f5',
-                borderRadius: '24px',
+                background: '#f8f8f8',
+                borderRadius: '20px',
                 overflow: 'hidden',
-                cursor: 'pointer',
-                boxShadow: '0 20px 60px rgba(0,0,0,0.1)'
+                cursor: 'pointer'
               }} onClick={() => setShowLightbox(true)}>
+                
+                {/* Loading State */}
                 {!imageLoaded && (
                   <div style={{
                     position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: '#f5f5f5', zIndex: 1
+                    background: '#f5f5f5', zIndex: 1, minHeight: '400px'
                   }}>
                     <div style={{
                       width: '50px', height: '50px', border: '4px solid #e5e5e5',
@@ -175,85 +174,104 @@ const CarDetail = () => {
                     }} />
                   </div>
                 )}
+                
+                {/* Main Image - Natural Size */}
                 <img
                   src={getOptimizedImage(currentImage, 1200)}
                   alt={car.title}
                   onLoad={() => setImageLoaded(true)}
                   style={{
-                    width: '100%', 
-                    height: '100%',
-                    objectFit: 'cover', 
-                    opacity: imageLoaded ? 1 : 0, 
+                    display: 'block',
+                    width: '100%',
+                    height: 'auto',
+                    opacity: imageLoaded ? 1 : 0,
                     transition: 'opacity 0.3s ease'
                   }}
                 />
                 
                 {/* Status Badge */}
                 <div style={{
-                  position: 'absolute', top: '24px', left: '24px', padding: '12px 24px',
-                  background: status.bg, color: status.text, fontSize: '0.85rem',
-                  fontWeight: '700', textTransform: 'uppercase', borderRadius: '12px', 
+                  position: 'absolute', top: '20px', left: '20px', padding: '10px 20px',
+                  background: status.bg, color: status.text, fontSize: '0.8rem',
+                  fontWeight: '700', textTransform: 'uppercase', borderRadius: '10px', 
                   zIndex: 2, letterSpacing: '0.05em'
                 }}>
                   {car.status}
                 </div>
 
-                {/* Click to enlarge */}
-                <div style={{
-                  position: 'absolute', bottom: '24px', left: '24px', padding: '14px 24px',
-                  background: 'rgba(0,0,0,0.75)', color: '#fff', fontSize: '0.95rem',
-                  fontWeight: '600', borderRadius: '12px', zIndex: 2
-                }}>
-                  Click to enlarge
-                </div>
-
                 {/* Image Counter */}
                 {car.images?.length > 1 && (
                   <div style={{
-                    position: 'absolute', bottom: '24px', right: '24px', padding: '14px 24px',
-                    background: 'rgba(0,0,0,0.75)', color: '#fff', fontSize: '1rem',
-                    fontWeight: '600', borderRadius: '12px', zIndex: 2
+                    position: 'absolute', bottom: '20px', right: '20px', padding: '10px 18px',
+                    background: 'rgba(0,0,0,0.7)', color: '#fff', fontSize: '0.9rem',
+                    fontWeight: '600', borderRadius: '10px', zIndex: 2
                   }}>
                     {selectedImageIndex + 1} / {car.images.length}
                   </div>
                 )}
 
-                {/* Nav Arrows */}
-                {car.images?.length > 1 && (
-                  <>
-                    <button onClick={(e) => { e.stopPropagation(); prevImage(); }} style={{
-                      position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)',
-                      width: '56px', height: '56px', background: 'rgba(255,255,255,0.95)',
-                      border: 'none', borderRadius: '50%', cursor: 'pointer',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', 
-                      zIndex: 2, boxShadow: '0 4px 20px rgba(0,0,0,0.15)'
-                    }}><ChevronLeft size={28} /></button>
-                    <button onClick={(e) => { e.stopPropagation(); nextImage(); }} style={{
-                      position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)',
-                      width: '56px', height: '56px', background: 'rgba(255,255,255,0.95)',
-                      border: 'none', borderRadius: '50%', cursor: 'pointer',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', 
-                      zIndex: 2, boxShadow: '0 4px 20px rgba(0,0,0,0.15)'
-                    }}><ChevronRight size={28} /></button>
-                  </>
-                )}
+                {/* Click hint */}
+                <div style={{
+                  position: 'absolute', bottom: '20px', left: '20px', padding: '10px 18px',
+                  background: 'rgba(0,0,0,0.7)', color: '#fff', fontSize: '0.85rem',
+                  fontWeight: '500', borderRadius: '10px', zIndex: 2
+                }}>
+                  🔍 Click to zoom
+                </div>
               </div>
 
-              {/* Thumbnails - BIGGER */}
+              {/* Navigation Arrows - Below Image */}
               {car.images?.length > 1 && (
                 <div style={{
-                  display: 'flex', gap: '14px', marginTop: '24px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  gap: '16px',
+                  marginTop: '20px'
+                }}>
+                  <button onClick={prevImage} style={{
+                    width: '50px', height: '50px',
+                    background: '#fff',
+                    border: '2px solid #e5e5e5',
+                    borderRadius: '12px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.2s ease'
+                  }}>
+                    <ChevronLeft size={24} color="#333" />
+                  </button>
+                  <button onClick={nextImage} style={{
+                    width: '50px', height: '50px',
+                    background: '#fff',
+                    border: '2px solid #e5e5e5',
+                    borderRadius: '12px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.2s ease'
+                  }}>
+                    <ChevronRight size={24} color="#333" />
+                  </button>
+                </div>
+              )}
+
+              {/* Thumbnails */}
+              {car.images?.length > 1 && (
+                <div style={{
+                  display: 'flex', gap: '12px', marginTop: '20px',
                   overflowX: 'auto', paddingBottom: '10px'
                 }}>
                   {car.images.map((img, i) => (
                     <div key={i} onClick={() => { setSelectedImageIndex(i); setImageLoaded(false); }} style={{
-                      flexShrink: 0, width: '120px', height: '90px', background: '#f5f5f5',
-                      overflow: 'hidden', cursor: 'pointer', borderRadius: '14px',
-                      border: i === selectedImageIndex ? '4px solid #c41e3a' : '4px solid transparent',
-                      opacity: i === selectedImageIndex ? 1 : 0.6,
+                      flexShrink: 0, width: '100px', height: '70px', background: '#f5f5f5',
+                      overflow: 'hidden', cursor: 'pointer', borderRadius: '12px',
+                      border: i === selectedImageIndex ? '3px solid #c41e3a' : '3px solid #e5e5e5',
+                      opacity: i === selectedImageIndex ? 1 : 0.7,
                       transition: 'all 0.3s ease'
                     }}>
-                      <img src={getOptimizedImage(img, 200)} alt="" loading="lazy"
+                      <img src={getOptimizedImage(img, 150)} alt="" loading="lazy"
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                   ))}
@@ -263,22 +281,10 @@ const CarDetail = () => {
               {/* Videos */}
               {car.videos?.length > 0 && (
                 <div style={{ marginTop: '32px' }}>
-                  <h3 style={{ 
-                    fontSize: '1rem', 
-                    fontWeight: '700', 
-                    textTransform: 'uppercase', 
-                    color: '#737373', 
-                    marginBottom: '16px',
-                    letterSpacing: '0.1em'
-                  }}>Videos</h3>
+                  <h3 style={{ fontSize: '1rem', fontWeight: '700', textTransform: 'uppercase', color: '#737373', marginBottom: '16px', letterSpacing: '0.1em' }}>Videos</h3>
                   <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
                     {car.videos.map((video, i) => (
-                      <video key={i} src={video} controls style={{ 
-                        width: '100%', 
-                        maxWidth: '500px', 
-                        borderRadius: '16px',
-                        boxShadow: '0 10px 40px rgba(0,0,0,0.1)'
-                      }} />
+                      <video key={i} src={video} controls style={{ width: '100%', maxWidth: '500px', borderRadius: '16px' }} />
                     ))}
                   </div>
                 </div>
@@ -288,33 +294,16 @@ const CarDetail = () => {
             {/* Right: Details */}
             <div className="car-detail-info">
               {/* Brand & Model */}
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                gap: '12px', 
-                marginBottom: '16px', 
-                flexWrap: 'wrap' 
-              }}>
-                <span style={{ 
-                  fontSize: '1rem', 
-                  fontWeight: '700', 
-                  textTransform: 'uppercase', 
-                  color: '#c41e3a',
-                  letterSpacing: '0.1em'
-                }}>{car.brand}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '1rem', fontWeight: '700', textTransform: 'uppercase', color: '#c41e3a', letterSpacing: '0.1em' }}>{car.brand}</span>
                 <span style={{ color: '#d4d4d4', fontSize: '1.2rem' }}>•</span>
                 <span style={{ fontSize: '1rem', color: '#737373', fontWeight: '500' }}>{car.model}</span>
               </div>
 
               {/* Title */}
               <h1 style={{
-                fontSize: 'clamp(2rem, 5vw, 3rem)', 
-                fontWeight: '800', 
-                color: '#0a0a0a',
-                marginBottom: '32px', 
-                lineHeight: 1.2, 
-                wordBreak: 'break-word',
-                letterSpacing: '-0.02em'
+                fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: '800', color: '#0a0a0a',
+                marginBottom: '32px', lineHeight: 1.2, wordBreak: 'break-word', letterSpacing: '-0.02em'
               }}>
                 {car.title}
               </h1>
@@ -324,19 +313,9 @@ const CarDetail = () => {
                 <div style={{
                   padding: '24px 28px', 
                   background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%)',
-                  color: '#fff', 
-                  marginBottom: '32px', 
-                  borderRadius: '20px',
-                  boxShadow: '0 10px 40px rgba(0,0,0,0.2)'
+                  color: '#fff', marginBottom: '32px', borderRadius: '20px'
                 }}>
-                  <p style={{ 
-                    fontSize: '0.8rem', 
-                    textTransform: 'uppercase', 
-                    color: 'rgba(255,255,255,0.5)', 
-                    marginBottom: '8px',
-                    letterSpacing: '0.1em',
-                    fontWeight: '600'
-                  }}>Engine</p>
+                  <p style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: '8px', letterSpacing: '0.1em', fontWeight: '600' }}>Engine</p>
                   <p style={{ fontSize: '1.4rem', fontWeight: '700', wordBreak: 'break-word' }}>{car.engine}</p>
                 </div>
               )}
@@ -345,44 +324,18 @@ const CarDetail = () => {
               <div className="specs-grid">
                 {specs.map((spec, i) => (
                   <div key={i} style={{
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: '16px',
-                    padding: '20px', 
-                    background: '#f8f8f8', 
-                    borderRadius: '16px',
-                    overflow: 'hidden'
+                    display: 'flex', alignItems: 'center', gap: '16px',
+                    padding: '20px', background: '#f8f8f8', borderRadius: '16px', overflow: 'hidden'
                   }}>
                     <div style={{
-                      width: '56px', 
-                      height: '56px', 
-                      background: '#fff', 
-                      borderRadius: '14px',
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      flexShrink: 0,
-                      boxShadow: '0 4px 15px rgba(0,0,0,0.06)'
+                      width: '56px', height: '56px', background: '#fff', borderRadius: '14px',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
                     }}>
                       <spec.icon size={24} color="#c41e3a" />
                     </div>
                     <div style={{ minWidth: 0, flex: 1, overflow: 'hidden' }}>
-                      <p style={{ 
-                        fontSize: '0.75rem', 
-                        color: '#737373', 
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.08em',
-                        fontWeight: '600',
-                        marginBottom: '4px'
-                      }}>{spec.label}</p>
-                      <p style={{
-                        fontWeight: '700', 
-                        color: '#0a0a0a', 
-                        fontSize: '1.1rem',
-                        whiteSpace: 'nowrap', 
-                        overflow: 'hidden', 
-                        textOverflow: 'ellipsis'
-                      }}>{spec.value}</p>
+                      <p style={{ fontSize: '0.75rem', color: '#737373', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: '600', marginBottom: '4px' }}>{spec.label}</p>
+                      <p style={{ fontWeight: '700', color: '#0a0a0a', fontSize: '1.1rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{spec.value}</p>
                     </div>
                   </div>
                 ))}
@@ -391,46 +344,21 @@ const CarDetail = () => {
               {/* Description */}
               {car.description && (
                 <div style={{ marginTop: '36px' }}>
-                  <h3 style={{ 
-                    fontSize: '1rem', 
-                    fontWeight: '700', 
-                    textTransform: 'uppercase', 
-                    color: '#737373', 
-                    marginBottom: '16px',
-                    letterSpacing: '0.1em'
-                  }}>About This Vehicle</h3>
-                  <p style={{ 
-                    color: '#525252', 
-                    lineHeight: 1.8, 
-                    fontSize: '1.1rem', 
-                    wordBreak: 'break-word' 
-                  }}>{car.description}</p>
+                  <h3 style={{ fontSize: '1rem', fontWeight: '700', textTransform: 'uppercase', color: '#737373', marginBottom: '16px', letterSpacing: '0.1em' }}>About This Vehicle</h3>
+                  <p style={{ color: '#525252', lineHeight: 1.8, fontSize: '1.1rem', wordBreak: 'break-word' }}>{car.description}</p>
                 </div>
               )}
 
               {/* Features */}
               {car.features?.length > 0 && (
                 <div style={{ marginTop: '36px' }}>
-                  <h3 style={{ 
-                    fontSize: '1rem', 
-                    fontWeight: '700', 
-                    textTransform: 'uppercase', 
-                    color: '#737373', 
-                    marginBottom: '16px',
-                    letterSpacing: '0.1em'
-                  }}>Features</h3>
+                  <h3 style={{ fontSize: '1rem', fontWeight: '700', textTransform: 'uppercase', color: '#737373', marginBottom: '16px', letterSpacing: '0.1em' }}>Features</h3>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                     {car.features.map((feature, i) => (
                       <span key={i} style={{
-                        display: 'inline-flex', 
-                        alignItems: 'center', 
-                        gap: '8px',
-                        padding: '12px 20px', 
-                        background: '#f0fdf4', 
-                        color: '#166534',
-                        fontSize: '0.95rem', 
-                        fontWeight: '600', 
-                        borderRadius: '12px'
+                        display: 'inline-flex', alignItems: 'center', gap: '8px',
+                        padding: '12px 20px', background: '#f0fdf4', color: '#166534',
+                        fontSize: '0.95rem', fontWeight: '600', borderRadius: '12px'
                       }}>
                         <Check size={18} />{feature}
                       </span>
@@ -441,39 +369,18 @@ const CarDetail = () => {
 
               {/* CTA */}
               <div style={{
-                marginTop: '48px', 
-                padding: '32px',
+                marginTop: '48px', padding: '32px',
                 background: 'linear-gradient(135deg, #c41e3a 0%, #e63950 100%)',
-                borderRadius: '24px', 
-                color: '#fff',
-                overflow: 'hidden',
-                boxShadow: '0 20px 60px rgba(196,30,58,0.4)'
+                borderRadius: '24px', color: '#fff', overflow: 'hidden'
               }}>
-                <p style={{ 
-                  fontSize: '0.85rem', 
-                  textTransform: 'uppercase', 
-                  opacity: 0.85, 
-                  marginBottom: '8px',
-                  letterSpacing: '0.1em',
-                  fontWeight: '600'
-                }}>Interested in this vehicle?</p>
+                <p style={{ fontSize: '0.85rem', textTransform: 'uppercase', opacity: 0.85, marginBottom: '8px', letterSpacing: '0.1em', fontWeight: '600' }}>Interested in this vehicle?</p>
                 <p style={{ fontSize: '1.8rem', fontWeight: '700', marginBottom: '28px' }}>Contact Us Today</p>
                 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   <button onClick={() => setShowInquiry(true)} style={{
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center', 
-                    gap: '12px',
-                    padding: '18px 24px', 
-                    background: '#fff', 
-                    color: '#c41e3a',
-                    fontSize: '1.1rem', 
-                    fontWeight: '700', 
-                    border: 'none', 
-                    borderRadius: '14px', 
-                    cursor: 'pointer', 
-                    width: '100%'
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px',
+                    padding: '18px 24px', background: '#fff', color: '#c41e3a',
+                    fontSize: '1.1rem', fontWeight: '700', border: 'none', borderRadius: '14px', cursor: 'pointer', width: '100%'
                   }}>
                     <MessageSquare size={22} />
                     Send Inquiry
@@ -481,38 +388,19 @@ const CarDetail = () => {
                   
                   <div style={{ display: 'flex', gap: '12px' }}>
                     <a href="tel:03241344368" style={{
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      gap: '10px',
-                      padding: '18px 24px', 
-                      background: 'rgba(255,255,255,0.15)', 
-                      color: '#fff',
-                      fontSize: '1.05rem', 
-                      fontWeight: '700', 
-                      border: '2px solid rgba(255,255,255,0.3)',
-                      borderRadius: '14px', 
-                      textDecoration: 'none', 
-                      flex: 1
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+                      padding: '18px 24px', background: 'rgba(255,255,255,0.15)', color: '#fff',
+                      fontSize: '1.05rem', fontWeight: '700', border: '2px solid rgba(255,255,255,0.3)',
+                      borderRadius: '14px', textDecoration: 'none', flex: 1
                     }}>
                       <Phone size={20} />
                       Call Now
                     </a>
                     <a href={`https://wa.me/923241344368?text=${encodeURIComponent('Hi! I am interested in ' + car.title)}`}
                       target="_blank" rel="noopener noreferrer" style={{
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      gap: '10px',
-                      padding: '18px 24px', 
-                      background: '#25D366', 
-                      color: '#fff',
-                      fontSize: '1.05rem', 
-                      fontWeight: '700', 
-                      border: 'none', 
-                      borderRadius: '14px', 
-                      textDecoration: 'none', 
-                      flex: 1
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+                      padding: '18px 24px', background: '#25D366', color: '#fff',
+                      fontSize: '1.05rem', fontWeight: '700', border: 'none', borderRadius: '14px', textDecoration: 'none', flex: 1
                     }}>
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -654,7 +542,7 @@ const CarDetail = () => {
         
         .car-detail-wrapper {
           display: grid;
-          grid-template-columns: 1.2fr 1fr;
+          grid-template-columns: 1.3fr 1fr;
           gap: 60px;
           align-items: start;
         }
