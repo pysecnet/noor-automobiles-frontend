@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import { ArrowLeft, Calendar, Gauge, Fuel, Settings, Palette, Car, Check, Phone, MessageSquare, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ArrowLeft, Calendar, Gauge, Fuel, Settings, Palette, Car, Check, Phone, MessageSquare, ChevronLeft, ChevronRight, X, ZoomIn } from 'lucide-react';
 
 const CarDetail = () => {
   const { id } = useParams();
@@ -19,6 +19,31 @@ const CarDetail = () => {
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  // Swipe handling
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const diff = touchStartX.current - touchEndX.current;
+    const threshold = 50;
+
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        nextImage(); // Swipe left = next
+      } else {
+        prevImage(); // Swipe right = prev
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchCar = async () => {
@@ -151,22 +176,89 @@ const CarDetail = () => {
           <div className="car-detail-wrapper">
             {/* Left: Gallery */}
             <div className="car-detail-gallery">
-              {/* Main Image Container */}
+              
+              {/* Status & Info Bar - OUTSIDE IMAGE */}
               <div style={{
-                position: 'relative',
-                width: '100%',
-                background: '#f8f8f8',
-                borderRadius: '20px',
-                overflow: 'hidden',
-                cursor: 'pointer'
-              }} onClick={() => setShowLightbox(true)}>
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '16px',
+                flexWrap: 'wrap',
+                gap: '12px'
+              }}>
+                {/* Status Badge */}
+                <div style={{
+                  padding: '10px 20px',
+                  background: status.bg,
+                  color: status.text,
+                  fontSize: '0.8rem',
+                  fontWeight: '700',
+                  textTransform: 'uppercase',
+                  borderRadius: '10px',
+                  letterSpacing: '0.05em'
+                }}>
+                  {car.status}
+                </div>
+
+                {/* Image Counter & Zoom */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  {car.images?.length > 1 && (
+                    <span style={{
+                      padding: '10px 16px',
+                      background: '#f5f5f5',
+                      color: '#525252',
+                      fontSize: '0.85rem',
+                      fontWeight: '600',
+                      borderRadius: '10px'
+                    }}>
+                      {selectedImageIndex + 1} / {car.images.length}
+                    </span>
+                  )}
+                  <button 
+                    onClick={() => setShowLightbox(true)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '10px 16px',
+                      background: '#f5f5f5',
+                      color: '#525252',
+                      fontSize: '0.85rem',
+                      fontWeight: '600',
+                      borderRadius: '10px',
+                      border: 'none',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <ZoomIn size={16} />
+                    Zoom
+                  </button>
+                </div>
+              </div>
+
+              {/* Main Image Container - CLEAN, NO OVERLAYS */}
+              <div 
+                style={{
+                  position: 'relative',
+                  width: '100%',
+                  background: '#f8f8f8',
+                  borderRadius: '20px',
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  touchAction: 'pan-y'
+                }} 
+                onClick={() => setShowLightbox(true)}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
                 
                 {/* Loading State */}
                 {!imageLoaded && (
                   <div style={{
                     position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: '#f5f5f5', zIndex: 1, minHeight: '400px'
+                    background: '#f5f5f5', zIndex: 1, minHeight: '350px'
                   }}>
                     <div style={{
                       width: '50px', height: '50px', border: '4px solid #e5e5e5',
@@ -175,54 +267,37 @@ const CarDetail = () => {
                   </div>
                 )}
                 
-                {/* Main Image - Natural Size */}
+                {/* Main Image - Clean, No Overlays */}
                 <img
                   src={getOptimizedImage(currentImage, 1200)}
                   alt={car.title}
                   onLoad={() => setImageLoaded(true)}
+                  draggable={false}
                   style={{
                     display: 'block',
                     width: '100%',
                     height: 'auto',
                     opacity: imageLoaded ? 1 : 0,
-                    transition: 'opacity 0.3s ease'
+                    transition: 'opacity 0.3s ease',
+                    userSelect: 'none'
                   }}
                 />
-                
-                {/* Status Badge */}
-                <div style={{
-                  position: 'absolute', top: '20px', left: '20px', padding: '10px 20px',
-                  background: status.bg, color: status.text, fontSize: '0.8rem',
-                  fontWeight: '700', textTransform: 'uppercase', borderRadius: '10px', 
-                  zIndex: 2, letterSpacing: '0.05em'
-                }}>
-                  {car.status}
-                </div>
-
-                {/* Image Counter */}
-                {car.images?.length > 1 && (
-                  <div style={{
-                    position: 'absolute', bottom: '20px', right: '20px', padding: '10px 18px',
-                    background: 'rgba(0,0,0,0.7)', color: '#fff', fontSize: '0.9rem',
-                    fontWeight: '600', borderRadius: '10px', zIndex: 2
-                  }}>
-                    {selectedImageIndex + 1} / {car.images.length}
-                  </div>
-                )}
-
-                {/* Click hint */}
-                <div style={{
-                  position: 'absolute', bottom: '20px', left: '20px', padding: '10px 18px',
-                  background: 'rgba(0,0,0,0.7)', color: '#fff', fontSize: '0.85rem',
-                  fontWeight: '500', borderRadius: '10px', zIndex: 2
-                }}>
-                  🔍 Click to zoom
-                </div>
               </div>
+
+              {/* Swipe Hint - Mobile Only */}
+              <p className="swipe-hint" style={{
+                textAlign: 'center',
+                color: '#999',
+                fontSize: '0.8rem',
+                marginTop: '12px',
+                display: 'none'
+              }}>
+                ← Swipe to change image →
+              </p>
 
               {/* Navigation Arrows - Below Image */}
               {car.images?.length > 1 && (
-                <div style={{
+                <div className="nav-arrows" style={{
                   display: 'flex',
                   justifyContent: 'center',
                   gap: '16px',
@@ -417,11 +492,17 @@ const CarDetail = () => {
 
       {/* Lightbox */}
       {showLightbox && (
-        <div style={{
-          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-          background: 'rgba(0,0,0,0.95)', display: 'flex', alignItems: 'center',
-          justifyContent: 'center', zIndex: 3000, padding: '20px'
-        }} onClick={() => setShowLightbox(false)}>
+        <div 
+          style={{
+            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+            background: 'rgba(0,0,0,0.95)', display: 'flex', alignItems: 'center',
+            justifyContent: 'center', zIndex: 3000, padding: '20px'
+          }} 
+          onClick={() => setShowLightbox(false)}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <button onClick={() => setShowLightbox(false)} style={{
             position: 'absolute', top: '30px', right: '30px', width: '60px', height: '60px',
             background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '50%',
@@ -430,13 +511,13 @@ const CarDetail = () => {
 
           {car.images?.length > 1 && (
             <>
-              <button onClick={(e) => { e.stopPropagation(); prevImage(); }} style={{
+              <button onClick={(e) => { e.stopPropagation(); prevImage(); }} className="lightbox-nav" style={{
                 position: 'absolute', left: '30px', top: '50%', transform: 'translateY(-50%)',
                 width: '60px', height: '60px', background: 'rgba(255,255,255,0.1)',
                 border: 'none', borderRadius: '50%', cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center'
               }}><ChevronLeft size={32} color="#fff" /></button>
-              <button onClick={(e) => { e.stopPropagation(); nextImage(); }} style={{
+              <button onClick={(e) => { e.stopPropagation(); nextImage(); }} className="lightbox-nav" style={{
                 position: 'absolute', right: '30px', top: '50%', transform: 'translateY(-50%)',
                 width: '60px', height: '60px', background: 'rgba(255,255,255,0.1)',
                 border: 'none', borderRadius: '50%', cursor: 'pointer',
@@ -447,7 +528,8 @@ const CarDetail = () => {
 
           <img src={getOptimizedImage(currentImage, 1400)} alt={car.title}
             onClick={(e) => e.stopPropagation()}
-            style={{ maxWidth: '90vw', maxHeight: '85vh', objectFit: 'contain', borderRadius: '12px' }} />
+            draggable={false}
+            style={{ maxWidth: '90vw', maxHeight: '85vh', objectFit: 'contain', borderRadius: '12px', userSelect: 'none' }} />
 
           {car.images?.length > 1 && (
             <div style={{
@@ -564,6 +646,18 @@ const CarDetail = () => {
           .car-detail-wrapper {
             grid-template-columns: 1fr;
             gap: 40px;
+          }
+        }
+        
+        @media (max-width: 768px) {
+          .swipe-hint {
+            display: block !important;
+          }
+          .nav-arrows {
+            display: none !important;
+          }
+          .lightbox-nav {
+            display: none !important;
           }
         }
         
